@@ -20,7 +20,7 @@
 </head>
 <body>
     <section class="header">
-       <div class="logo">
+       <div class="logo" onclick="window.location.href='<?= SITE_URL ?>admin/index.php'">
             Ethereal
         </div>
         <div class="nav">

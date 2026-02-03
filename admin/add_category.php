@@ -18,9 +18,17 @@
     <link rel="stylesheet" href="<?= SITE_URL ?>./css/style.css">
 </head>
 <body>
+    <?php
+        if (isset($_SESSION['add_category'])) {
+            echo "<div class='error_notice'>";
+            echo $_SESSION['add_category'];
+            echo "</div>";
+        }
+        unset($_SESSION['add_category']);
+    ?>
     <h1>Add Category</h1>
     <section class="checkout_container">
-        <form class="form_container" action="" method="post" class="checkout_form">
+        <form class="form_container" action="<?= SITE_URL ?>admin/add_category_logic.php" method="post" class="checkout_form">
             <input type="text" name="title" placeholder="Title">
             <textarea name="description" placeholder="Description"></textarea>
             <button type="submit" name="submit">Submit</button>

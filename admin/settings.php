@@ -14,7 +14,7 @@
         <aside id="aside">
             <div class="logo">Ethereal</div>
             <div class="profile_info">
-                <img src="<?= SITE_URL ?>./images/usages/susan.jpeg">
+                <img src="<?= SITE_URL ?>./images/users/<?= htmlspecialchars($profile_data['picture']) ?>">
             </div>
             <div class="aside_links">
                 <a href="<?= SITE_URL ?>admin/profile.php">Dashboard Overview</a>

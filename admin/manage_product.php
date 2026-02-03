@@ -9,12 +9,32 @@
         header('location: ' . SITE_URL . 'authentication/login.php');
         exit();
     }
+    // get product from database
+    $edit = mysqli_prepare($conn, "SELECT * FROM product");
+    mysqli_stmt_execute($edit);
+    $result = mysqli_stmt_get_result($edit);
 ?>
+    <?php
+        if (isset($_SESSION['add_product_success'])) {
+            echo "<div class='success_notice'>";
+            echo $_SESSION['add_product_success'];
+            echo "</div>";
+        }
+        unset($_SESSION['add_product_success']);
+    ?>
+    <?php
+        if (isset($_SESSION['add_product_error'])) {
+            echo "<div class='error_notice'>";
+            echo $_SESSION['add_product_error'];
+            echo "</div>";
+        }
+        unset($_SESSION['add_product_error']);
+    ?>
     <section class="dashboard_container">
         <aside id="aside">
             <div class="logo">Ethereal</div>
             <div class="profile_info">
-                <img src="../images/usages/susan.jpeg">
+                <img src="<?= SITE_URL ?>./images/users/<?= htmlspecialchars($profile_data['picture']) ?>">
             </div>
             <div class="aside_links">
                 <a href="<?= SITE_URL ?>admin/profile.php">Dashboard Overview</a>
@@ -33,26 +53,32 @@
                 <div class="add_page">
                     Want to add a new product? <button onclick="window.location.href='<?= SITE_URL ?>admin/add_product.php'">Add</button>
                 </div>
+                <?php if (mysqli_num_rows($result) > 0) : ?>
                 <table>
                     <tr>
                         <th>ID</th>
                         <th>Product</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                         <th>Availability</th>
-                        <th>Date Created</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
+                    <?php while ($gottenDetials = mysqli_fetch_assoc($result)) : ?>
                     <tr>
-                        <td>1</td>
-                        <td>Men's Silver Bracelet</td>
-                        <td>$299.99</td>
-                        <td>yes</td>
-                        <td>2023-10-01</td>
-                        <td><a href="<?= SITE_URL ?>admin/edit_product.php">Edit</a></td>
-                        <td><a href="<?= SITE_URL ?>admin/delete_product.php" class="danger">Delete</a></td>
+                        <td><?= htmlspecialchars($gottenDetials['id']) ?></td>
+                        <td><?= $gottenDetials['title'] ?></td>
+                        <td>$<?= htmlspecialchars($gottenDetials['price']) ?></td>
+                        <td><?= htmlspecialchars($gottenDetials['quantity']) ?></td>
+                        <td><?= htmlspecialchars($gottenDetials['available'] ? 'yes' : 'no') ?></td>
+                        <td><a href="<?= SITE_URL ?>admin/edit_product.php?id=<?= htmlspecialchars($gottenDetials['id']) ?>">Edit</a></td>
+                        <td><a href="<?= SITE_URL ?>admin/delete_product.php?id=<?= htmlspecialchars($gottenDetials['id']) ?>" class="danger">Delete</a></td>
                     </tr>
+                    <?php endwhile ?>
                 </table>
+                <?php else : ?>
+                    <div class="notice">No data to display, try adding!!</div>
+                <?php endif; ?>
             </div>
         </main>
     </section>

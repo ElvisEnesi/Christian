@@ -3,7 +3,13 @@
     padding: 0;
     margin: 0;
 }
- .error_notice{
+.notice{
+    margin: 10px 0;
+    color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    text-align: center;
+}
+.error_notice{
     margin: 10px 0;
     color: red;
     width: 100%;
@@ -83,6 +89,7 @@ h1 {
     font-weight: bold;
     color: #333;
     margin-right: 15px;
+    cursor: pointer;
 }
 .header .nav {
     display: flex;
