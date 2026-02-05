@@ -30,6 +30,22 @@
         }
         unset($_SESSION['add_product_error']);
     ?>
+    <?php
+        if (isset($_SESSION['update_product_success'])) {
+            echo "<div class='success_notice'>";
+            echo $_SESSION['update_product_success'];
+            echo "</div>";
+        }
+        unset($_SESSION['update_product_success']);
+    ?>
+    <?php
+        if (isset($_SESSION['update_product'])) {
+            echo "<div class='error_notice'>";
+            echo $_SESSION['update_product'];
+            echo "</div>";
+        }
+        unset($_SESSION['update_product']);
+    ?>
     <section class="dashboard_container">
         <aside id="aside">
             <div class="logo">Ethereal</div>

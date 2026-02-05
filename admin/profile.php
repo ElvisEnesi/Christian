@@ -72,9 +72,17 @@
                         <h4>Total Orders</h4>
                         <p>24 Orders</p>
                     </div>
+                    <?php 
+                        // select active carts
+                        $cart_status = "active";
+                        $cart_stmt = mysqli_prepare($conn, "SELECT COUNT(*) AS active_carts FROM cart WHERE status = ? AND customer_id = ?");
+                        mysqli_stmt_bind_param($cart_stmt, "si", $cart_status, $loggedIn);
+                        mysqli_stmt_execute($cart_stmt);
+                        $cart_result = mysqli_fetch_assoc(mysqli_stmt_get_result($cart_stmt));
+                    ?>
                     <div class="column">
                         <h4>Total Active Carts</h4>
-                        <p>24 Carts</p>
+                        <p><?= htmlspecialchars($cart_result['active_carts']) ?> Carts</p>
                     </div>
                     <div class="column">
                         <h4>Last Order</h4>

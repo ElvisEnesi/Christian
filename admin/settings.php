@@ -36,8 +36,40 @@
                     <span><ion-icon name="settings-outline"></ion-icon></span>
                 </div>
                 <h1>Your details</h1>
+                <?php
+                    if (isset($_SESSION['details_success'])) {
+                        echo "<div class='success_notice'>";
+                        echo $_SESSION['details_success'];
+                        echo "</div>";
+                    }
+                    unset($_SESSION['details_success']);
+                ?>
+                <?php
+                    if (isset($_SESSION['details'])) {
+                        echo "<div class='error_notice'>";
+                        echo $_SESSION['details'];
+                        echo "</div>";
+                    }
+                    unset($_SESSION['details']);
+                ?>
+                <?php
+                    if (isset($_SESSION['password_success'])) {
+                        echo "<div class='success_notice'>";
+                        echo $_SESSION['password_success'];
+                        echo "</div>";
+                    }
+                    unset($_SESSION['password_success']);
+                ?>
+                <?php
+                    if (isset($_SESSION['password'])) {
+                        echo "<div class='error_notice'>";
+                        echo $_SESSION['password'];
+                        echo "</div>";
+                    }
+                    unset($_SESSION['password']);
+                ?>
                 <div class="details_container">
-                    <form action="" method="post">
+                    <form action="<?= SITE_URL ?>admin/edit_user_details.php" method="post">
                         <input type="text" name="fullname" value="<?= htmlspecialchars($profile_data['full_name']) ?>" placeholder="Full Name">
                         <input type="email" name="email" value="<?= htmlspecialchars($profile_data['email']) ?>" placeholder="Email">
                         <input type="text" name="username" value="<?= htmlspecialchars($profile_data['user_name']) ?>" placeholder="User Name">
@@ -45,7 +77,7 @@
                         <input type="text" name="address" value="<?= htmlspecialchars($profile_data['address']) ?>" placeholder="Address">
                         <button type="submit" name="details">Edit Details</button>
                     </form>
-                    <form action="" method="post">
+                    <form action="<?= SITE_URL ?>admin/edit_user_password.php" method="post">
                         <input type="password" name="current" placeholder="Current password">
                         <input type="password" name="create" placeholder="Create password">
                         <input type="password" name="confirm" placeholder="Confirm password">

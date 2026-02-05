@@ -9,16 +9,17 @@
         $price = filter_var($_POST['price'], FILTER_SANITIZE_NUMBER_INT);
         $quantity = filter_var($_POST['quantity'], FILTER_SANITIZE_NUMBER_INT);
         $category_id = filter_var($_POST['category'], FILTER_SANITIZE_NUMBER_INT);
+        $previous_avatar = filter_var($_POST['previous_avatar'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $avatar = $_FILES['avatar'];
         // validate inputs
         if (!$title || !$price || !$quantity || !$category_id || !$avatar['name']) {
-            $_SESSION['add_product'] = "Fill in all inputs!!";
+            $_SESSION['update_product'] = "Fill in all inputs!!";
         } elseif (!is_numeric($price) || !is_numeric($quantity) || !is_numeric($category_id)) {
-            $_SESSION['add_product'] = "Price, quantity & category id must be a number!!";
+            $_SESSION['update_product'] = "Price, quantity & category id must be a number!!";
         } elseif ($price < 1 ) {
-            $_SESSION['add_product'] = "Quantity must be more than 1!!";
+            $_SESSION['update_product'] = "Quantity must be more than 1!!";
         } elseif ($quantity < 1 && $quantity > 100) {
-            $_SESSION['add_product'] = "Quantity must be in a range of 1-100!!";
+            $_SESSION['update_product'] = "Quantity must be in a range of 1-100!!";
         } else {
             // work on image
             $avatar_name = $avatar['name'];
@@ -34,37 +35,41 @@
                     // upload avatar
                     move_uploaded_file($avatar_tmp_name, $avatar_path);
                 } else {
-                    $_SESSION['add_product'] = "File size too big. Should be less than 2MB";
+                    $_SESSION['update_product'] = "File size too big. Should be less than 2MB";
                 }
             } else {
-                $_SESSION['add_product'] = "File should be png, jpg or jpeg";
+                $_SESSION['update_product'] = "File should be png, jpg or jpeg";
             }
         }
         // redirect if there's any error
-        if (isset($_SESSION['add_product'])) {
-            header("location: " . SITE_URL . "admin/add_product.php");
+        if (isset($_SESSION['update_product'])) {
+            header("location: " . SITE_URL . "admin/update_product.php?id=" . $id);
             die();
         } else {
-            // insert in to category table if no errors
-            $stmt = mysqli_prepare($conn, "INSERT INTO product (title, price, quantity, category_id, avatar) VALUES(?,?,?,?,?)");
-            mysqli_stmt_bind_param($stmt, "siiis", $title, $price, $quantity, $category_id, $avatar_name);
+            // update in to product table if no errors
+            $stmt = mysqli_prepare($conn, "UPDATE product SET title=?, price=?, quantity=?, category_id=?, avatar=? WHERE id=?");
+            mysqli_stmt_bind_param($stmt, "siiisi", $title, $price, $quantity, $category_id, $avatar_name, $id);
             mysqli_stmt_execute($stmt);
+            // unlink previous avatar after updating
+            $previous_avatar_path = "../images/products/" . $previous_avatar;
+            if ($previous_avatar_path) {
+                unlink($previous_avatar_path);
+            }
             // redirect with success message to manage categories
             if (!mysqli_errno($conn)) {
-                $_SESSION['add_product_success'] = "New product successfully added!!";
+                $_SESSION['update_product_success'] = "Product successfully updated!!";
                 header("location: " . SITE_URL . "admin/manage_product.php");
                 die();
             } else {
-                // redirect with error message to manage categories and unlink uploaded file
-                unlink($avatar_path);
-                $_SESSION['add_product_error'] = "Couldn't add new product!!";
+                // redirect with error message to manage categories
+                $_SESSION['update_product'] = "Couldn't update product!!";
                 header("location: " . SITE_URL . "admin/manage_product.php");
                 die();
             }   
         }
     } else {
         // redirect if accessed directly
-        header("location: " .SITE_URL . "admin/add_product.php");
+        header("location: " .SITE_URL . "admin/manage_product.php");
         die();
     }
     

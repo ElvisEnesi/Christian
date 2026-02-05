@@ -63,7 +63,7 @@
             // if any connection error
             if (mysqli_errno($conn)) {
                 unlink($avatar_destination_path);
-                $_SESSION['register'] = "Database error: Failed to register";
+                $_SESSION['register'] = "Error: Failed to register";
                 header("Location: " . SITE_URL . "authentication/register.php");
                 die();  
             } else {

@@ -10,6 +10,14 @@
         </form>
     </section>
     <?php
+        if (isset($_SESSION['add_to_cart'])) {
+            echo "<div class='error_notice'>";
+            echo $_SESSION['add_to_cart'];
+            echo "</div>";
+        }
+        unset($_SESSION['add_to_cart']);
+    ?>
+    <?php
         if (isset($_SESSION['shop'])) {
             echo "<div class='error_notice'>";
             echo $_SESSION['shop'];

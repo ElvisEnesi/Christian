@@ -173,7 +173,7 @@ h1 {
     margin: 20px 0;
 }
 .items .item {
-    flex: 23%;
+    width: 23%;
     height: 65vh;
     margin: 10px;
     background-color: #f8f8f8;
