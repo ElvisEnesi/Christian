@@ -46,6 +46,22 @@
         }
         unset($_SESSION['update_product']);
     ?>
+    <?php
+        if (isset($_SESSION['delete_product_success'])) {
+            echo "<div class='success_notice'>";
+            echo $_SESSION['delete_product_success'];
+            echo "</div>";
+        }
+        unset($_SESSION['delete_product_success']);
+    ?>
+    <?php
+        if (isset($_SESSION['delete_product'])) {
+            echo "<div class='error_notice'>";
+            echo $_SESSION['delete_product'];
+            echo "</div>";
+        }
+        unset($_SESSION['delete_product']);
+    ?>
     <section class="dashboard_container">
         <aside id="aside">
             <div class="logo">Ethereal</div>

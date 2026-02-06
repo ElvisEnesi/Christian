@@ -26,7 +26,7 @@
             // process avatar 
             if ($avatar['name']) {
                 $time = time(); // make each image name unique with current timestamp
-                $avatar_name = $time . $avatar['name'];
+                $avatar_name = $time . "_" . $avatar['name'];
                 $avatar_tmp_name = $avatar['tmp_name'];
                 $avatar_destination_path = '../images/users/' . $avatar_name;
                 // check file type

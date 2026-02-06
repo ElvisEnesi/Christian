@@ -10,13 +10,13 @@
     }
     // get id from url
     if (isset($_GET['id'])) {
-        $product_id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
-        // select product
-        $select_product = mysqli_prepare($conn, "SELECT * FROM product WHERE id=?");
-        mysqli_stmt_bind_param($select_product, "i", $product_id);
-        mysqli_stmt_execute($select_product);
-        $result = mysqli_stmt_get_result($select_product);
-        $product = mysqli_fetch_assoc($result);
+        $user_id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
+        // select user
+        $select_user = mysqli_prepare($conn, "SELECT * FROM users WHERE id=?");
+        mysqli_stmt_bind_param($select_user, "i", $user_id);
+        mysqli_stmt_execute($select_user);
+        $result = mysqli_stmt_get_result($select_user);
+        $user = mysqli_fetch_assoc($result);
     }
 ?>
 <!DOCTYPE html>
@@ -31,8 +31,8 @@
     <div class="logout">
         <h1>Delete??</h1>
         <div class="links_log">
-            <a href="<?= SITE_URL ?>admin/delete_product_logic.php?id=<?= htmlspecialchars($product['id'], ENT_QUOTES, 'UTF-8') ?>">Yes</a>
-            <a href="<?= SITE_URL ?>admin/manage_product.php">No</a>
+            <a href="<?= SITE_URL ?>admin/delete_user_logic.php?id=<?= htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') ?>">Yes</a>
+            <a href="<?= SITE_URL ?>admin/settings.php">No</a>
         </div>
     </div>
 </body>

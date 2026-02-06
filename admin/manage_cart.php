@@ -42,12 +42,12 @@
                 $stmt = mysqli_prepare($conn, "SELECT p.id AS product_id, p.title AS product_title, 
                 p.price AS product_price, p.available AS product_available, c.id AS cart_id,
                 c.product_id AS cart_pid, c.customer_id AS cart_cid, c.status AS cart_status,
-                c.date AS cart_date FROM cart c JOIN product p ON c.product_id = p.id WHERE c.status = ?");
+                c.date AS cart_date FROM cart c JOIN product p ON c.product_id = p.id WHERE c.status = ? ORDER BY cart_date DESC");
                 // bind params
                 $status = "checked_out";
                 mysqli_stmt_bind_param($stmt, "s", $status);
                 mysqli_stmt_execute($stmt);
-                $table_result = mysqli_stmt_get_result($stmt);
+                $table_result = mysqli_stmt_get_result($stmt);//
             ?>
             <div class="main_container">
                 <table>

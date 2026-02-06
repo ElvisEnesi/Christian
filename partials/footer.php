@@ -20,7 +20,7 @@
             <a href="">Twitter</a>
             <a href="">Instagram</a>    
         </div>
-        <p>&copy; 2024 Ethereal. All rights reserved.</p>
+        <p>&copy; <?= date("Y") ?> Ethereal. All rights reserved.</p>
     </section>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

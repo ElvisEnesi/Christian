@@ -46,6 +46,22 @@
         }
         unset($_SESSION['update_category']);
     ?>
+    <?php
+        if (isset($_SESSION['delete_category_success'])) {
+            echo "<div class='success_notice'>";
+            echo $_SESSION['delete_category_success'];
+            echo "</div>";
+        }
+        unset($_SESSION['delete_category_success']);
+    ?>
+    <?php
+        if (isset($_SESSION['delete_category'])) {
+            echo "<div class='error_notice'>";
+            echo $_SESSION['delete_category'];
+            echo "</div>";
+        }
+        unset($_SESSION['delete_category']);
+    ?>
     <section class="dashboard_container">
         <aside id="aside">
             <div class="logo">Ethereal</div>

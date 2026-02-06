@@ -26,10 +26,34 @@
         }
         unset($_SESSION['cart']);
     ?>
+    <?php
+        if (isset($_SESSION['error'])) {
+            echo "<div class='error_notice'>";
+            echo $_SESSION['error'];
+            echo "</div>";
+        }
+        unset($_SESSION['error']);
+    ?>
+    <?php
+        if (isset($_SESSION['delete_cart_success'])) {
+            echo "<div class='success_notice'>";
+            echo $_SESSION['delete_cart_success'];
+            echo "</div>";
+        }
+        unset($_SESSION['delete_cart_success']);
+    ?>
+    <?php
+        if (isset($_SESSION['delete_cart'])) {
+            echo "<div class='error_notice'>";
+            echo $_SESSION['delete_cart'];
+            echo "</div>";
+        }
+        unset($_SESSION['delete_cart']);
+    ?>
     <h1>MY CART</h1>
     <?php  
         // join cart, product & customer tables
-        $stmt = mysqli_prepare($conn, "SELECT p.id AS product_id, p.title AS product_title, 
+        $stmt = mysqli_prepare($conn, "SELECT p.id AS product_id, p.title AS product_title, p.quantity AS product_quantity,
         p.price AS product_price, p.available AS product_available, p.avatar AS product_avatar, c.id AS cart_id,
         c.product_id AS cart_pid, c.customer_id AS cart_cid, c.status AS cart_status, c.quantity AS cart_quantity,
         c.date AS cart_date FROM cart c JOIN product p ON c.product_id = p.id WHERE c.status = ? AND c.customer_id = ?");
@@ -46,17 +70,20 @@
                     <img src="<?= SITE_URL ?>images/products/<?= htmlspecialchars($tab['product_avatar']) ?>" class="cart_item_img">
                     <div class="details">
                         <h2 class="cart_item_name"><?= $tab['product_title'] ?></h2>
-                        <?php if ($tab['product_available'] == 1) : ?>
+                        <?php if ($tab['product_quantity'] !== 0) : ?>
                             <span class="in_stock">In stock</span>
                         <?php else : ?>
                             <del class="in_stock">Out of stock</del>
                         <?php endif; ?>
                     </div>
                     <p class="cart_item_price">$<?= htmlspecialchars($tab['product_price']) ?></p>
-                        <?php if ($tab['product_available'] == 1) : ?>
+                        <?php if ($tab['product_quantity'] !== 0) : ?>
                             <form class="cart_form" action="<?= SITE_URL ?>admin/cart_decision.php" method="post">
                                 <input type="hidden" name="cart_id" value="<?= htmlspecialchars($tab['cart_id']) ?>">
-                                <p class="cart_item_quantity">Quantity: <input type="number" name="quantity" value="<?= htmlspecialchars($tab['cart_quantity']) ?>" min="1"></p>
+                                <p class="cart_item_quantity">
+                                    Quantity: <input type="number" name="quantity" value="<?= htmlspecialchars($tab['cart_quantity']) ?>"
+                                    min="1" max="<?= htmlspecialchars($tab['product_quantity']) ?>">
+                                </p>
                                 <button type="submit" name="submit">Proceed to checkout</button>
                                 <button type="submit" name="remove">Remove from cart</button>
                             </form>
@@ -79,7 +106,7 @@
     <?php if (mysqli_num_rows($resultt) > 0) : ?>
     <section class="items">
         <?php while ($item = mysqli_fetch_assoc($resultt)) : ?>
-            <?php if ($item['available'] == 1) : ?>
+            <?php if ($item['quantity'] !== 0) : ?>
                 <div class="item">
                     <img src="<?= SITE_URL ?>images/products/<?= htmlspecialchars($item['avatar']) ?>" class="item_img">
                     <h2 class="item_name"><?= $item['title'] ?></h2>

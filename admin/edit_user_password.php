@@ -16,7 +16,7 @@
             $_SESSION['password'] = "All passwords must be 8+";
         } else {
             // select password from users table
-            $select_stmt = mysqli_prepare($conn, "SELECT password FROM users WHERE id = ?");
+            $select_stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE id = ?");
             mysqli_stmt_bind_param($select_stmt, "i", $customer_id);
             mysqli_stmt_execute($select_stmt);
             $result = mysqli_stmt_get_result($select_stmt);

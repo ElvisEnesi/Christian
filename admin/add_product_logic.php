@@ -21,7 +21,7 @@
             $_SESSION['add_product'] = "Quantity must be in a range of 1-100!!";
         } else {
             // work on image
-            $avatar_name = $avatar['name'];
+            $avatar_name = time() . "_" . $avatar['name']; // rename using current time stamp
             $avatar_tmp_name = $avatar['tmp_name'];
             $avatar_path = "../images/products/" . $avatar_name;
             // check if it's an image

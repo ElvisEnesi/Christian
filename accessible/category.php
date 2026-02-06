@@ -13,7 +13,7 @@
     ?>
     <h1>SHOP WITH US</h1>
     <?php
-        $table = mysqli_prepare( $conn, "SELECT p.id AS product_id, p.title AS product_title, 
+        $table = mysqli_prepare( $conn, "SELECT p.id AS product_id, p.title AS product_title, p.quantity AS product_quantity,
         p.avatar AS product_avatar, p.price AS product_price , p.available AS available, c.id AS category_id, c.title AS category_title FROM 
         category c JOIN product p ON c.id = p.category_id WHERE c.id = ?");
         mysqli_stmt_bind_param($table, "i", $gotten_id);
@@ -23,7 +23,7 @@
     <?php if (mysqli_num_rows($result) > 0) :?>
        <section class="items">
         <?php while ($item = mysqli_fetch_assoc($result)) : ?>
-            <?php if ($item['available'] == 1) : ?>
+            <?php if ($item['product_quantity'] !== 0) : ?>
                 <div class="item">
                     <img src="<?= SITE_URL ?>images/products/<?= htmlspecialchars($item['product_avatar']) ?>" class="item_img">
                     <h2 class="item_name"><?= $item['product_title'] ?></h2>

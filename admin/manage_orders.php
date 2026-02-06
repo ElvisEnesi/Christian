@@ -10,6 +10,14 @@
         exit();
     }
     ?>
+    <?php
+        if (isset($_SESSION['update_status_success'])) {
+            echo "<div class='success_notice'>";
+            echo $_SESSION['update_status_success'];
+            echo "</div>";
+        }
+        unset($_SESSION['update_status_success']);
+    ?>
     <section class="dashboard_container">
         <aside id="aside">
             <div class="logo">Ethereal</div>
@@ -29,25 +37,45 @@
             </div>
         </aside>
         <main>
+            <?php
+                // get orders from database
+                $edit = mysqli_prepare($conn, "SELECT * FROM orders ORDER BY id DESC");
+                mysqli_stmt_execute($edit);
+                $result = mysqli_stmt_get_result($edit);
+            ?>
             <div class="main_container">
+                <?php if (mysqli_num_rows($result) > 0) : ?>
                 <table>
                     <tr>
                         <th>ID</th>
                         <th>Product</th>
                         <th>Price</th>
+                        <th>Quantity</th>
                         <th>Status</th>
+                        <th>Receipt</th>
+                        <th>Phone</th>
+                        <th>Address</th>
                         <th>Date Created</th>
                         <th>Edit</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Men's Silver Bracelet</td>
-                        <td>$299.99</td>
-                        <td>Paid</td>
-                        <td>2023-10-01</td>
-                        <td><a href="<?= SITE_URL ?>admin/edit_order.php">Edit</a></td>
-                    </tr>
+                    <?php while ($gottenDetials = mysqli_fetch_assoc($result)) : ?>
+                        <tr>
+                            <td><?= htmlspecialchars($gottenDetials['id']) ?></td>
+                            <td><?= htmlspecialchars($gottenDetials['product_name']) ?></td>
+                            <td>$<?= htmlspecialchars($gottenDetials['total_price']) ?></td>
+                            <td><?= htmlspecialchars($gottenDetials['quantity']) ?></td>
+                            <td><?= htmlspecialchars($gottenDetials['status']) ?></td>
+                            <td><a href="../images/receipts/<?= htmlspecialchars($gottenDetials['receipt']) ?>" download="">Download</a></td>
+                            <td><?= htmlspecialchars($gottenDetials['phone']) ?></td>
+                            <td><?= htmlspecialchars($gottenDetials['address']) ?></td>
+                            <td><?= htmlspecialchars(date("M d, Y - H:i", strtotime($gottenDetials['date']))) ?></td>
+                            <td><a href="<?= SITE_URL ?>admin/edit_order.php?id=<?= htmlspecialchars($gottenDetials['id']) ?>">Edit</a></td>
+                        </tr>
+                    <?php endwhile ?>
                 </table>
+                <?php else : ?>
+                    <div class="notice">No data to display, try adding!!</div>
+                <?php endif; ?>
             </div>
         </main>
     </section>

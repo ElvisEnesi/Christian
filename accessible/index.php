@@ -35,7 +35,7 @@
     <?php if (mysqli_num_rows($resultt) > 0) : ?>
     <section class="items">
         <?php while ($item = mysqli_fetch_assoc($resultt)) : ?>
-            <?php if ($item['available'] == 1) : ?>
+            <?php if ($item['quantity'] !== 0) : ?>
                 <div class="item">
                     <img src="<?= SITE_URL ?>images/products/<?= htmlspecialchars($item['avatar']) ?>" class="item_img">
                     <h2 class="item_name"><?= $item['title'] ?></h2>

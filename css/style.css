@@ -166,7 +166,7 @@ h1 {
 .items {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
     flex-wrap: wrap;
     padding: 20px;
@@ -351,7 +351,7 @@ form.form_container button:hover {
     margin: 15px 0;
 }
 .dashboard_container #aside {
-    width: 28%;
+    width: 20%;
     background-color: #f8f8f8;
     padding: 20px;
 }
@@ -390,7 +390,7 @@ form.form_container button:hover {
     background-color: #ccc;
 }
 .dashboard_container main {
-    width: 70%;
+    width: 75%;
     margin-left: 5px;
     display: flex;
     flex-direction: column;
@@ -409,13 +409,8 @@ form.form_container button:hover {
 }
 .dashboard_container main .main_container .main_details .greetings {
     font-size: 30px;
-    margin-right: 100px;
-}
-.dashboard_container main .main_container .main_details .year_joined {
-    font-size: 20px;
 }
 .dashboard_container main .main_container .overview {
-    background-color: transparent;
     padding: 10px 50px;
     display: flex;
     justify-content: space-evenly;
@@ -476,11 +471,11 @@ form.form_container button:hover {
 }
 .dashboard_container main .main_container table tr th {
     padding: 10px 0;
-    font-size: 25px;
+    font-size: 20px;
 }
 .dashboard_container main .main_container table tr td {
     padding: 10px 0;
-    font-size: 18px;
+    font-size: 16px;
 }
 .dashboard_container main .main_container table tr td a {
     color: green;

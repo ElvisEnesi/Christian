@@ -68,6 +68,14 @@
                     }
                     unset($_SESSION['password']);
                 ?>
+                <?php
+                    if (isset($_SESSION['delete_users'])) {
+                        echo "<div class='error_notice'>";
+                        echo $_SESSION['delete_users'];
+                        echo "</div>";
+                    }
+                    unset($_SESSION['delete_users']);
+                ?>
                 <div class="details_container">
                     <form action="<?= SITE_URL ?>admin/edit_user_details.php" method="post">
                         <input type="text" name="fullname" value="<?= htmlspecialchars($profile_data['full_name']) ?>" placeholder="Full Name">
@@ -82,6 +90,9 @@
                         <input type="password" name="create" placeholder="Create password">
                         <input type="password" name="confirm" placeholder="Confirm password">
                         <button type="submit" name="password">Edit Password</button>
+                    </form>
+                    <form action="<?= SITE_URL ?>admin/delete_user.php?id=<?= $loggedIn ?>" method="post">
+                        <button type="submit" name="delete">Delete Account</button>
                     </form>
                 </div>
             </div>
